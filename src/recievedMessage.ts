@@ -1,5 +1,6 @@
 import { Message } from "discord.js"
 import { client } from "."
+import { checkMentionedEvents } from "./talkFunctions/checkMentionedEvents"
 
 //メッセージを受け取った時のイベント
 export const recievedMessage = async (message: Message<boolean>) => {
@@ -9,5 +10,10 @@ export const recievedMessage = async (message: Message<boolean>) => {
   }
   if (message.content === "こんにちは") {
     message.reply("やっほー")
+  }
+
+  // メンションされた時のイベントがトリガーされるか調べる
+  if (checkMentionedEvents(message)) {
+    return
   }
 }
