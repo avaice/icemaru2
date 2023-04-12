@@ -1,7 +1,7 @@
 {
-  "name": "discord-bot-typescript-template",
+  "name": "icemaru2",
   "version": "1.0.0",
-  "description": "An discord bot template",
+  "description": "A cutest discord bot",
   "main": "index.ts",
   "scripts": {
     "start": "ts-node ./src/index.ts",
