@@ -7,7 +7,8 @@ export const client = new Client({
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
-  ],
+    GatewayIntentBits.GuildVoiceStates
+  ]
 })
 
 client.once(Events.ClientReady, (c) => {
@@ -20,7 +21,5 @@ client.on("messageCreate", recievedMessage)
 if (ENV_KEYS.BOT_TOKEN) {
   client.login(ENV_KEYS.BOT_TOKEN)
 } else {
-  throw new Error(
-    "DiscordのBOTトークンが指定されていません。\n.envファイルにBOT_TOKENとして登録してください。"
-  )
+  throw new Error("DiscordのBOTトークンが指定されていません。\n.envファイルにBOT_TOKENとして登録してください。")
 }

@@ -1,5 +1,7 @@
 import { Message } from "discord.js"
 import { client } from "."
+import { checkPlayCommand } from "./jukeBox/checkPlayCommand"
+import { jukeBox } from "./jukeBox/jukeBox"
 import { checkMentionedEvents } from "./talkFunctions/checkMentionedEvents"
 
 //メッセージを受け取った時のイベント
@@ -10,6 +12,10 @@ export const recievedMessage = async (message: Message<boolean>) => {
   }
   if (message.content === "こんにちは") {
     message.reply("やっほー")
+  }
+
+  if (jukeBox(message)) {
+    return
   }
 
   // メンションされた時のイベントがトリガーされるか調べる
