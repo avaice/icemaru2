@@ -1,6 +1,6 @@
 import { Message } from "discord.js"
 
-export const ohm = (message: Message<boolean>): boolean => {
+export const ohm = (message: Message<boolean>): string | false => {
   if (!message.content.includes("って言って")) {
     return false
   }
@@ -10,7 +10,6 @@ export const ohm = (message: Message<boolean>): boolean => {
     .replace("って言って", "")
     .replace(/<@.*>/g, "")
     .trim()}`
-  message.reply(reply)
 
-  return true
+  return reply
 }

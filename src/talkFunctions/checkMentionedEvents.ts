@@ -2,20 +2,20 @@ import { Message } from "discord.js"
 import { client } from ".."
 import { ohm } from "./mentioned/ohm"
 import { ava } from "./mentioned/ava"
+import { kakkoii } from "./mentioned/kakkoii"
 
-export const checkMentionedEvents = (message: Message<boolean>): boolean => {
+export const checkMentionedEvents = (message: Message<boolean>): string | false => {
   if (!client.user || !message.mentions.has(client.user.id)) {
     return false
   }
 
-  // おうむ返し
-  if (ohm(message)) {
-    return true
-  }
+  const checkFunctions = [ohm /* おうむ返し */, ava /* AVAしてる */, kakkoii /* かっこいいorかわいい */]
 
-  // 何してる？→AVA
-  if (ava(message)) {
-    return true
+  for (let i = 0; i < checkFunctions.length; i++) {
+    const result = checkFunctions[i](message)
+    if (result) {
+      return result
+    }
   }
 
   return false

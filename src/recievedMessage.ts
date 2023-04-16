@@ -13,7 +13,9 @@ export const recievedMessage = async (message: Message<boolean>) => {
   }
 
   // メンションされた時のイベントがトリガーされるか調べる
-  if (checkMentionedEvents(message)) {
+  const mentionEvents = checkMentionedEvents(message)
+  if (mentionEvents) {
+    message.reply(mentionEvents)
     return
   }
 }
