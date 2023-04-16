@@ -1,10 +1,11 @@
-# discord-bot-typescript-template
-discord.jsとTypeScriptを使用してDiscord Botを作成するためのテンプレート
+# icemaru2
+Super Genius Discord Bot あいすまる
 
-## Usage
+[discord-bot-typescript-template](https://github.com/avaice/discord-bot-typescript-template)をベースに作っています
 
-1. リポジトリをクローンする
-2. `npm ci`で依存モジュールをインストールする
-3. ルートディレクトリに`.env`ファイルを作成し、`BOT_TOKEN`キーにBotのトークンを指定する
-4. `npm start`でプログラムを実行する
-5. Botが参加しているサーバーで「こんにちは」と送信して「やっほー」と返ってきたら環境構築完了
+## 機能
+
+- よくわかんないことをしゃべってくれる
+- なんか雑にほめてくれる
+- 歌を歌ってくれる( e.g. `!play https://www.youtube.com/watch?v=pb0DyZwc_sE`, `!skip`, `!stop` )
+
