@@ -3,6 +3,7 @@ import { client } from "."
 import { checkPlayCommand } from "./jukeBox/checkPlayCommand"
 import { jukeBox } from "./jukeBox/jukeBox"
 import { checkMentionedEvents } from "./talkFunctions/checkMentionedEvents"
+import { valorantPick } from "./valorantPick/valorantPick"
 
 //メッセージを受け取った時のイベント
 export const recievedMessage = async (message: Message<boolean>) => {
@@ -15,6 +16,10 @@ export const recievedMessage = async (message: Message<boolean>) => {
   }
 
   if (jukeBox(message)) {
+    return
+  }
+
+  if (await valorantPick(message)) {
     return
   }
 

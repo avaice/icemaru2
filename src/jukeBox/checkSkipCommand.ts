@@ -1,7 +1,7 @@
 import { getVoiceConnection, VoiceConnection } from "@discordjs/voice"
 import { Message, VoiceBasedChannel } from "discord.js"
-import { playYouTube } from "./checkPlayCommand"
 import { JukeBoxQueue } from "./queue"
+import { playYouTube } from "./playYouTube"
 
 export const checkSkipCommand = (message: Message<boolean>) => {
   if (message.content.startsWith("!skip") && message.guild) {
