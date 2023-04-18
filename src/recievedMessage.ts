@@ -7,6 +7,9 @@ import { valorantPick } from "./valorantPick/valorantPick"
 
 //メッセージを受け取った時のイベント
 export const recievedMessage = async (message: Message<boolean>) => {
+  //Darkあいす丸がオンラインで、自分は本番環境だった時
+  //いつかその処理を書けるようになるといいな（いつか）
+
   //BOT自身が送ったメッセージだったとき
   if (client.user && message.author.id === client.user.id) {
     return
