@@ -1,15 +1,8 @@
-import { Message, VoiceBasedChannel } from "discord.js"
-import {
-  AudioPlayerStatus,
-  createAudioPlayer,
-  createAudioResource,
-  getVoiceConnection,
-  joinVoiceChannel,
-  VoiceConnection
-} from "@discordjs/voice"
+import { Message } from "discord.js"
+import { getVoiceConnection, joinVoiceChannel } from "@discordjs/voice"
 import ytdl from "ytdl-core"
 import { JukeBoxQueue } from "./queue"
-import { playNext } from "./checkSkipCommand"
+import { playYouTube } from "./playYouTube"
 
 export const checkPlayCommand = (message: Message<boolean>) => {
   if (message.content.startsWith("!play") && message.guild) {
@@ -50,23 +43,4 @@ export const checkPlayCommand = (message: Message<boolean>) => {
   } else {
     return false
   }
-}
-
-export const playYouTube = (url: string, message: Message, connection: VoiceConnection, channel: VoiceBasedChannel) => {
-  // https://github.com/fent/node-ytdl-core/issues/902
-  const stream = ytdl(ytdl.getURLVideoID(url), {
-    filter: "audioonly",
-    highWaterMark: 1 << 62,
-    liveBuffer: 1 << 62
-  })
-  const player = createAudioPlayer()
-  const resource = createAudioResource(stream)
-  player.play(resource)
-  resource.volume?.setVolume(0.5)
-
-  player.on(AudioPlayerStatus.Idle, () => {
-    playNext(message, connection, channel)
-  })
-
-  connection.subscribe(player)
 }

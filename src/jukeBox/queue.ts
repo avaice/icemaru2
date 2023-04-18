@@ -1,18 +1,18 @@
-const cue = new Map<string, string[]>()
+const queue = new Map<string, string[]>()
 
 export const JukeBoxQueue = {
   set: (cId: string, videoId: string) => {
-    const playList = cue.get(cId) || []
+    const playList = queue.get(cId) || []
     playList.push(videoId)
-    cue.set(cId, playList)
+    queue.set(cId, playList)
   },
   get: (cId: string) => {
-    return cue.get(cId)
+    return queue.get(cId)
   },
   shift: (cId: string) => {
-    const playList = cue.get(cId) || []
+    const playList = queue.get(cId) || []
     const poped = playList.shift()
-    cue.set(cId, playList)
+    queue.set(cId, playList)
     return poped
   }
 }
