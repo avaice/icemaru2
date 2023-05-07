@@ -5,4 +5,5 @@ dotenv.config()
 
 export const ENV_KEYS = {
   BOT_TOKEN: process.env.BOT_TOKEN,
+  MINECRAFT_SERVER: process.env.MINECRAFT_SERVER
 }
