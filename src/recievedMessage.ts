@@ -4,7 +4,8 @@ import { checkPlayCommand } from "./jukeBox/checkPlayCommand"
 import { jukeBox } from "./jukeBox/jukeBox"
 import { checkMentionedEvents } from "./talkFunctions/checkMentionedEvents"
 import { valorantPick } from "./valorantPick/valorantPick"
-import { minecraftServerInfo } from "./minecraftServerInfo/minecraftServerInfo"
+import { minecraftServerInfo } from "./minecraft/minecraftServerInfo"
+import { minecraftNews } from "./minecraft/minecraftNews"
 
 //メッセージを受け取った時のイベント
 export const recievedMessage = async (message: Message<boolean>) => {
@@ -24,6 +25,10 @@ export const recievedMessage = async (message: Message<boolean>) => {
   }
 
   if (await valorantPick(message)) {
+    return
+  }
+
+  if (await minecraftNews(message)) {
     return
   }
 
