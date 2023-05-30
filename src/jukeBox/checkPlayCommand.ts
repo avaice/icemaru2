@@ -9,6 +9,7 @@ export const checkPlayCommand = (message: Message<boolean>) => {
     const url = message.content.replace("!play", "").trim()
     if (!ytdl.validateURL(url)) {
       message.reply("ちゃんとYouTubeのURLを入力してね")
+      return false
     }
 
     // コマンドを実行したメンバーがいるボイスチャンネルを取得
