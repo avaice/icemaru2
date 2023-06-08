@@ -20,6 +20,14 @@ export const recievedMessage = async (message: Message<boolean>) => {
     message.reply("やっほー")
   }
 
+  if ((message.content.includes("おつ") || message.content.includes("お疲れ")) && message.content.includes("あいす")) {
+    message.reply("えへへ")
+  }
+
+  if (message.content.includes("おき") && message.content.includes("あいす")) {
+    message.reply("おはよ〜〜〜")
+  }
+
   if (jukeBox(message)) {
     return
   }
