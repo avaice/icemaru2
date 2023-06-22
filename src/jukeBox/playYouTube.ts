@@ -16,6 +16,7 @@ export const playYouTube = (url: string, message: Message, connection: VoiceConn
     resource.volume?.setVolume(0.5)
 
     player.on(AudioPlayerStatus.Idle, () => {
+      stream.destroy()
       playNext(message, connection, channel)
     })
 
