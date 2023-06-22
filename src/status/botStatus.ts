@@ -7,7 +7,7 @@ export const botStatus = async (message: Message<boolean>): Promise<boolean> => 
     const usage = Math.round((process.memoryUsage().rss / 1024 / 1024) * 100) / 100
     const scale = totalMemory / 10
 
-    const health = "🍮".repeat(Math.min(freeMemory / scale, 1))
+    const health = "🍮".repeat(Math.max(freeMemory / scale, 1))
     const healthMessage = freeMemory > 512 ? "元気だよ〜" : freeMemory > 256 ? "うーん普通..." : "元気ない・・"
 
     message.reply(
