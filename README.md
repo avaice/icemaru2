@@ -3,6 +3,8 @@ Super Genius Discord Bot あいすまる
 
 [discord-bot-typescript-template](https://github.com/avaice/discord-bot-typescript-template)をベースに作っています
 
+不特定多数のサーバーで使われるというよりかは、仲間内のサーバーで狭く使われるような設計になっています
+
 ## 機能
 サンプルと完全一致しなくても、同じようなニュアンスで話せば大体通じます
 - よくわかんないことをしゃべってくれる
