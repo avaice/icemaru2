@@ -6,6 +6,7 @@ import { checkMentionedEvents } from "./talkFunctions/checkMentionedEvents"
 import { valorantPick } from "./valorantPick/valorantPick"
 import { minecraftServerInfo } from "./minecraft/minecraftServerInfo"
 import { minecraftNews } from "./minecraft/minecraftNews"
+import { botStatus } from "./status/botStatus"
 
 //メッセージを受け取った時のイベント
 export const recievedMessage = async (message: Message<boolean>) => {
@@ -41,6 +42,10 @@ export const recievedMessage = async (message: Message<boolean>) => {
   }
 
   if (await minecraftServerInfo(message)) {
+    return
+  }
+
+  if (await botStatus(message)) {
     return
   }
 
