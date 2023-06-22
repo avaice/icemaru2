@@ -2,8 +2,13 @@ import { Message, VoiceBasedChannel } from "discord.js"
 import { AudioPlayerStatus, createAudioPlayer, createAudioResource, VoiceConnection } from "@discordjs/voice"
 import ytdl from "ytdl-core"
 import { playNext } from "./checkSkipCommand"
+import { isLimiterEnabled } from "../utils/limiter"
 export const playYouTube = (url: string, message: Message, connection: VoiceConnection, channel: VoiceBasedChannel) => {
   try {
+    if (isLimiterEnabled()) {
+      return message.reply("ごめん今元気ないからまた今度でいい..?")
+    }
+
     // https://github.com/fent/node-ytdl-core/issues/902
     const stream = ytdl(ytdl.getURLVideoID(url), {
       filter: "audioonly",
