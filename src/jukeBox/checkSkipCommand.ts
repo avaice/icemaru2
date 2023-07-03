@@ -2,6 +2,7 @@ import { getVoiceConnection, VoiceConnection } from "@discordjs/voice"
 import { Message, VoiceBasedChannel } from "discord.js"
 import { JukeBoxQueue } from "./queue"
 import { playYouTube } from "./playYouTube"
+import { isLimiterEnabled } from "../utils/limiter"
 
 export const checkSkipCommand = (message: Message<boolean>) => {
   if (message.content.startsWith("!skip") && message.guild) {
@@ -29,7 +30,7 @@ export const checkSkipCommand = (message: Message<boolean>) => {
 export const playNext = (message: Message, connection: VoiceConnection, channel: VoiceBasedChannel) => {
   const next = JukeBoxQueue.shift(channel.guild.id)
   if (next) {
-    message.reply("次行くぞ！！！")
+    message.reply("次に行くよ〜")
     playYouTube(next, message, connection, channel)
   } else {
     message.reply("おわり～")
