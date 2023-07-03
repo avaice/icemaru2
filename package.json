@@ -20,6 +20,7 @@
     "openai": "^3.2.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4",
+    "unofficial-valorant-api": "^2.3.0-stable.0",
     "ytdl": "^1.4.1"
   },
   "devDependencies": {

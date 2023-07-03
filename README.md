@@ -13,6 +13,8 @@ Super Genius Discord Bot あいすまる
   - `!play https://www.youtube.com/watch?v=pb0DyZwc_sE`, `!skip`, `!stop`
 - VALORANTのキャラをピックしてくれる
   - （VCにメンバーが揃った状態で）`キャラピックして`
+- VALORANTの戦績確認
+  - `aiueo#1234の戦績は？`
 - マインクラフト関連
   - サーバー接続人数取得
     - `マイクラ今何人やってる？`

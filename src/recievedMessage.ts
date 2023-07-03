@@ -3,10 +3,11 @@ import { client } from "."
 import { checkPlayCommand } from "./jukeBox/checkPlayCommand"
 import { jukeBox } from "./jukeBox/jukeBox"
 import { checkMentionedEvents } from "./talkFunctions/checkMentionedEvents"
-import { valorantPick } from "./valorantPick/valorantPick"
+import { valorantPick } from "./valorant/valorantPick"
 import { minecraftServerInfo } from "./minecraft/minecraftServerInfo"
 import { minecraftNews } from "./minecraft/minecraftNews"
 import { botStatus } from "./status/botStatus"
+import { valorantPowerCheck } from "./valorant/valorantPowerCheck"
 
 //メッセージを受け取った時のイベント
 export const recievedMessage = async (message: Message<boolean>) => {
@@ -34,6 +35,10 @@ export const recievedMessage = async (message: Message<boolean>) => {
   }
 
   if (await valorantPick(message)) {
+    return
+  }
+
+  if (await valorantPowerCheck(message)) {
     return
   }
 

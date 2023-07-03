@@ -3,6 +3,7 @@ import { getVoiceConnection, joinVoiceChannel } from "@discordjs/voice"
 import ytdl from "ytdl-core"
 import { JukeBoxQueue } from "./queue"
 import { playYouTube } from "./playYouTube"
+import { isLimiterEnabled } from "../utils/limiter"
 
 export const checkPlayCommand = (message: Message<boolean>) => {
   if (message.content.startsWith("!play") && message.guild) {
@@ -18,6 +19,10 @@ export const checkPlayCommand = (message: Message<boolean>) => {
     if (!channel) {
       message.reply("どこで再生すればいいのか教えてくれないと歌えないよ～")
       return false
+    }
+
+    if (isLimiterEnabled()) {
+      return message.reply("ごめん今元気ないからまた今度でいい..?")
     }
 
     if (!getVoiceConnection(channel.guild.id)) {
