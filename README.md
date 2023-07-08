@@ -10,7 +10,7 @@ Super Genius Discord Bot あいすまる
 - よくわかんないことをしゃべってくれる
 - なんか雑にほめてくれる
 - 歌を歌ってくれる
-  - `!play https://www.youtube.com/watch?v=pb0DyZwc_sE`, `!skip`, `!stop`
+  - `!play https://www.youtube.com/watch?v=pb0DyZwc_sE`, `!skip`, `!stop`, `!repeat-this`
 - VALORANTのキャラをピックしてくれる
   - （VCにメンバーが揃った状態で）`キャラピックして`
 - VALORANTの戦績確認
