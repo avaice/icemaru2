@@ -2,6 +2,7 @@ import { Message } from "discord.js"
 import { checkPlayCommand } from "./checkPlayCommand"
 import { checkSkipCommand } from "./checkSkipCommand"
 import { checkStopCommand } from "./checkStopCommand."
+import { checkRepeatCommand } from "./checkRepeatCommand"
 
 // YouTube再生機能
 export const jukeBox = (message: Message<boolean>): boolean => {
@@ -15,6 +16,10 @@ export const jukeBox = (message: Message<boolean>): boolean => {
   }
   // !skipコマンド
   if (checkSkipCommand(message)) {
+    return true
+  }
+  // !repeat-thisコマンド
+  if (checkRepeatCommand(message)) {
     return true
   }
 

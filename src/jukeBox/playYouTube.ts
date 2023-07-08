@@ -3,11 +3,13 @@ import { AudioPlayerStatus, createAudioPlayer, createAudioResource, VoiceConnect
 import ytdl from "ytdl-core"
 import { playNext } from "./checkSkipCommand"
 import { isLimiterEnabled } from "../utils/limiter"
+import { JukeBoxQueue } from "./queue"
 export const playYouTube = (url: string, message: Message, connection: VoiceConnection, channel: VoiceBasedChannel) => {
   try {
-    if (isLimiterEnabled()) {
-      return message.reply("ごめん今元気ないからまた今度でいい..?")
-    }
+    // TODO: Fix it 再帰関数になったからここが無限ループする可能性がある。。
+    // if (isLimiterEnabled()) {
+    //   return message.reply("ごめん今元気ないからまた今度でいい..?")
+    // }
 
     // https://github.com/fent/node-ytdl-core/issues/902
     const stream = ytdl(ytdl.getURLVideoID(url), {
@@ -16,13 +18,17 @@ export const playYouTube = (url: string, message: Message, connection: VoiceConn
       liveBuffer: 1 << 62
     })
     const player = createAudioPlayer()
-    const resource = createAudioResource(stream)
+    let resource = createAudioResource(stream)
     player.play(resource)
     resource.volume?.setVolume(0.5)
 
     player.on(AudioPlayerStatus.Idle, () => {
       stream.destroy()
-      playNext(message, connection, channel)
+      if (JukeBoxQueue.isRepeat()) {
+        playYouTube(url, message, connection, channel)
+      } else {
+        playNext(message, connection, channel)
+      }
     })
 
     connection.subscribe(player)

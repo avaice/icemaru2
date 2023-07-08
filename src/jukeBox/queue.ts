@@ -1,4 +1,5 @@
 const queue = new Map<string, string[]>()
+let repeat = false
 
 export const JukeBoxQueue = {
   set: (cId: string, videoId: string) => {
@@ -14,5 +15,7 @@ export const JukeBoxQueue = {
     const poped = playList.shift()
     queue.set(cId, playList)
     return poped
-  }
+  },
+  isRepeat: () => repeat,
+  setRepeat: (trig: boolean) => (repeat = trig)
 }

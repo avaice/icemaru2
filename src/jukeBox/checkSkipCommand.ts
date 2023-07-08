@@ -31,6 +31,7 @@ export const playNext = (message: Message, connection: VoiceConnection, channel:
   const next = JukeBoxQueue.shift(channel.guild.id)
   if (next) {
     message.reply("次に行くよ〜")
+    JukeBoxQueue.setRepeat(false)
     playYouTube(next, message, connection, channel)
   } else {
     message.reply("おわり～")
