@@ -8,7 +8,7 @@ import { minecraftServerInfo } from "./minecraft/minecraftServerInfo"
 import { minecraftNews } from "./minecraft/minecraftNews"
 import { botStatus } from "./status/botStatus"
 import { valorantPowerCheck } from "./valorant/valorantPowerCheck"
-import { icemaruGPT } from "./icemaruGPT"
+import { icemaruGPT, lastMessageDate } from "./icemaruGPT"
 
 //メッセージを受け取った時のイベント
 export const recievedMessage = async (message: Message<boolean>) => {
@@ -64,7 +64,8 @@ export const recievedMessage = async (message: Message<boolean>) => {
 
   if (
     (client.user && message.mentions.has(client.user.id)) ||
-    (message.content.includes("あいす") && (message.content.includes("まる") || message.content.includes("丸")))
+    (message.content.includes("あいす") && (message.content.includes("まる") || message.content.includes("丸"))) ||
+    new Date().getTime() - lastMessageDate.getTime() < 60000 // 最後の会話から６０秒以内なら
   ) {
     icemaruGPT(message)
     return
