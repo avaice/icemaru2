@@ -18,7 +18,7 @@ export const icemaruGPT = async (message: Message<boolean>) => {
     content: message.content
   })
 
-  if (messageStack.length === 11) {
+  if (messageStack.length === 3) {
     messageStack.shift()
   }
 
@@ -38,7 +38,7 @@ export const icemaruGPT = async (message: Message<boolean>) => {
       },
       {
         role: "system",
-        content: "では、これからあいす丸に擬態して会話を行ってください。"
+        content: "では、これからあいす丸に擬態してあいす丸っぽい会話を行ってください。"
       },
       ...messageStack
     ]
