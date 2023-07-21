@@ -8,6 +8,7 @@ import { minecraftServerInfo } from "./minecraft/minecraftServerInfo"
 import { minecraftNews } from "./minecraft/minecraftNews"
 import { botStatus } from "./status/botStatus"
 import { valorantPowerCheck } from "./valorant/valorantPowerCheck"
+import { icemaruGPT } from "./icemaruGPT"
 
 //メッセージを受け取った時のイベント
 export const recievedMessage = async (message: Message<boolean>) => {
@@ -58,6 +59,14 @@ export const recievedMessage = async (message: Message<boolean>) => {
   const mentionEvents = checkMentionedEvents(message)
   if (mentionEvents) {
     message.reply(mentionEvents)
+    return
+  }
+
+  if (
+    (client.user && message.mentions.has(client.user.id)) ||
+    (message.content.includes("あいす") && (message.content.includes("まる") || message.content.includes("丸")))
+  ) {
+    icemaruGPT(message)
     return
   }
 }

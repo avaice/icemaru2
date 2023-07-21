@@ -3,6 +3,7 @@ import { client } from ".."
 import { ohm } from "./mentioned/ohm"
 import { ava } from "./mentioned/ava"
 import { kakkoii } from "./mentioned/kakkoii"
+import { icemaruGPT } from "../icemaruGPT"
 
 export const checkMentionedEvents = (message: Message<boolean>): string | false => {
   if (!client.user || !message.mentions.has(client.user.id)) {
