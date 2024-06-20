@@ -19,6 +19,7 @@ export const valorantPowerCheck = async (message: Message<boolean>): Promise<boo
       message.reply(`${name}ちゃんは${data.currenttierpatched}の${data.ranking_in_tier}だよ。`)
     } else {
       message.reply("わからない..")
+      console.log(mmr_data)
     }
 
     return true

@@ -22,7 +22,7 @@ export const icemaruGPT = async (message: Message<boolean>) => {
   console.log(messageStack)
   try {
     const response = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo-0301",
+      model: "gpt-4o",
       messages: [
         {
           role: "system",
@@ -68,7 +68,8 @@ export const icemaruGPT = async (message: Message<boolean>) => {
     //うまくいかなかった時
     messageStack.length = 0
     message.reply("今会話する元気ない・・")
-  } catch {
+  } catch (e) {
+    console.log(e)
     //うまくいかなかった時
     messageStack.length = 0
     message.reply("疲れてるからまた今度ね！")
