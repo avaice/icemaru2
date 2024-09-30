@@ -140,30 +140,34 @@ export const voiceTalk = {
   },
   say: async ({ guildId, text }: { guildId: string; text: string }) => {
     const currentVoiceConnection = voiceConnections.get(guildId)
-
     if (!currentVoiceConnection) {
       return
     }
+    try {
+      // audio/wavが返ってくる
+      const fetchVoice = await fetch(`${ENV_KEYS.TTS_SERVER_URL}/voice?text=${encodeURIComponent(text)}`)
 
-    // audio/wavが返ってくる
-    const fetchVoice = await fetch(`${ENV_KEYS.TTS_SERVER_URL}/voice?text=${encodeURIComponent(text)}`)
+      // wavとして実行パス/temp/voice/${timestamp}.wavに保存
+      const voiceBuffer = await fetchVoice.arrayBuffer()
 
-    // wavとして実行パス/temp/voice/${timestamp}.wavに保存
-    const voiceBuffer = await fetchVoice.arrayBuffer()
+      const savePath = join(voicePath, `${Date.now()}.wav`)
+      fs.writeFileSync(savePath, new Uint8Array(voiceBuffer))
 
-    const savePath = join(voicePath, `${Date.now()}.wav`)
-    fs.writeFileSync(savePath, new Uint8Array(voiceBuffer))
+      const player = createAudioPlayer()
 
-    const player = createAudioPlayer()
+      let resource = createAudioResource(savePath)
+      player.play(resource)
+      resource.volume?.setVolume(0.5)
 
-    let resource = createAudioResource(savePath)
-    player.play(resource)
-    resource.volume?.setVolume(0.5)
+      currentVoiceConnection.subscribe(player)
 
-    currentVoiceConnection.subscribe(player)
-
-    player.on(AudioPlayerStatus.Idle, () => {
-      fs.unlinkSync(savePath)
-    })
+      player.on(AudioPlayerStatus.Idle, () => {
+        fs.unlinkSync(savePath)
+      })
+    } catch (e) {
+      console.log(e)
+      currentVoiceConnection.destroy()
+      voiceConnections.delete(guildId)
+    }
   }
 }
