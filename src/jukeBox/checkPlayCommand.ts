@@ -1,9 +1,9 @@
 import { Message } from "discord.js"
 import { getVoiceConnection, joinVoiceChannel } from "@discordjs/voice"
-import ytdl from "ytdl-core"
 import { JukeBoxQueue } from "./queue"
 import { playYouTube } from "./playYouTube"
 import { isLimiterEnabled } from "../utils/limiter"
+import ytdl from "@distube/ytdl-core"
 
 export const checkPlayCommand = (message: Message<boolean>) => {
   if (message.content.startsWith("!play") && message.guild) {
@@ -38,11 +38,11 @@ export const checkPlayCommand = (message: Message<boolean>) => {
         return false
       }
 
-      message.reply(`おっけ～、まかせなさい！`)
+      message.reply("おっけ～、まかせなさい！")
       playYouTube(url, message, connection, channel)
     } else {
       JukeBoxQueue.set(channel.guild.id, url)
-      message.reply(`次に歌うね！`)
+      message.reply("次に歌うね！")
     }
 
     return true

@@ -1,9 +1,9 @@
 import { Message, VoiceBasedChannel } from "discord.js"
 import { AudioPlayerStatus, createAudioPlayer, createAudioResource, VoiceConnection } from "@discordjs/voice"
-import ytdl from "ytdl-core"
 import { playNext } from "./checkSkipCommand"
 import { isLimiterEnabled } from "../utils/limiter"
 import { JukeBoxQueue } from "./queue"
+import ytdl from "@distube/ytdl-core"
 export const playYouTube = (url: string, message: Message, connection: VoiceConnection, channel: VoiceBasedChannel) => {
   try {
     // TODO: Fix it 再帰関数になったからここが無限ループする可能性がある。。
