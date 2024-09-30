@@ -98,7 +98,7 @@ export const voiceTalk = {
 
           const text = await speechToText(wavPath)
           fs.unlinkSync(wavPath)
-          if (text && isTalkingToIcemaru(text)) {
+          if (text) {
             const replyMessage = await icemaruGPT(text, message.channel.id)
             if (replyMessage.includes("LEAVE")) {
               reply(message, "またね～、ばいばい～")
@@ -120,6 +120,18 @@ export const voiceTalk = {
       })
 
       voiceConnections.set(message.guild.id, connection)
+      const aisatsu = () => {
+        const now = new Date()
+        const hour = now.getHours()
+        if (hour >= 5 && hour < 10) {
+          return "おはよう！"
+        } else if (hour >= 10 && hour < 18) {
+          return "こんにちは！"
+        } else {
+          return "こんばんは！"
+        }
+      }
+      reply(message, aisatsu() + "あいすまるが来たよ～！！")
     } catch (e) {
       console.log(e)
       message.reply("なんかうまく入れない〜、あいす丸のこと再起動してほしいな")
