@@ -22,7 +22,7 @@ export const icemaruGPT = async (message: Message<boolean>) => {
   console.log(messageStack)
   try {
     const response = await openai.createChatCompletion({
-      model: "gpt-4o",
+      model: "gpt-4o-mini",
       messages: [
         {
           role: "system",
