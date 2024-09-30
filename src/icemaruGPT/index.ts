@@ -1,7 +1,5 @@
 import { Message } from "discord.js"
-import { ENV_KEYS } from "../utils/envkeys"
 import { ChatCompletionRequestMessageRoleEnum, Configuration, OpenAIApi } from "openai"
-import { client } from ".."
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY
@@ -12,14 +10,13 @@ const messageStack: { role: ChatCompletionRequestMessageRoleEnum; content: strin
 export let lastMessageDate = new Date(0)
 
 export const icemaruGPT = async (message: Message<boolean>) => {
-  message.channel.sendTyping()
+  
 
   if (messageStack.length === 6) {
     messageStack.shift()
     messageStack.shift()
   }
 
-  console.log(messageStack)
   try {
     const response = await openai.createChatCompletion({
       model: "gpt-4o-mini",
@@ -62,16 +59,16 @@ export const icemaruGPT = async (message: Message<boolean>) => {
       )
 
       const answer = response.data.choices[0].message?.content
-      return message.reply(answer)
+      return answer
     }
 
     //うまくいかなかった時
     messageStack.length = 0
-    message.reply("今会話する元気ない・・")
+   return "今会話する元気ない・・"
   } catch (e) {
     console.log(e)
     //うまくいかなかった時
     messageStack.length = 0
-    message.reply("疲れてるからまた今度ね！")
+    return "疲れてるからまた今度ね！"
   }
 }
