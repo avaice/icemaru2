@@ -6,11 +6,11 @@ const configuration = new Configuration({
 })
 const openai = new OpenAIApi(configuration)
 
-const messageStack: { role: ChatCompletionRequestMessageRoleEnum; content: string }[] = []
+const messageStackMap = new Map<string, { role: ChatCompletionRequestMessageRoleEnum; content: string }[]>()
 export let lastMessageDate = new Date(0)
 
 export const icemaruGPT = async (message: Message<boolean>) => {
-  
+  const messageStack = messageStackMap.get(message.channelId) || []
 
   if (messageStack.length === 6) {
     messageStack.shift()
@@ -57,6 +57,7 @@ export const icemaruGPT = async (message: Message<boolean>) => {
         },
         response.data.choices[0].message
       )
+      messageStackMap.set(message.channelId, messageStack)
 
       const answer = response.data.choices[0].message?.content
       return answer
@@ -64,7 +65,7 @@ export const icemaruGPT = async (message: Message<boolean>) => {
 
     //うまくいかなかった時
     messageStack.length = 0
-   return "今会話する元気ない・・"
+    return "今会話する元気ない・・"
   } catch (e) {
     console.log(e)
     //うまくいかなかった時
