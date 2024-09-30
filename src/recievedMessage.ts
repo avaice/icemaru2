@@ -8,7 +8,10 @@ import { minecraftServerInfo } from "./minecraft/minecraftServerInfo"
 import { minecraftNews } from "./minecraft/minecraftNews"
 import { botStatus } from "./status/botStatus"
 import { valorantPowerCheck } from "./valorant/valorantPowerCheck"
-import { icemaruGPT, lastMessageDate } from "./icemaruGPT"
+import { icemaruGPT, isTalkingToIcemaru, lastMessageDate } from "./icemaruGPT"
+import { joinVoiceChannel } from "@discordjs/voice"
+import { voiceTalk } from "./voiceTalk"
+import { reply } from "./reply"
 
 //メッセージを受け取った時のイベント
 export const recievedMessage = async (message: Message<boolean>) => {
@@ -29,6 +32,11 @@ export const recievedMessage = async (message: Message<boolean>) => {
 
   if (message.content.includes("おき") && message.content.includes("あいす")) {
     message.reply("おはよ〜〜〜")
+  }
+
+  if ((message.content.includes("きて") || message.content.includes("来て")) && message.content.includes("あいす")) {
+    voiceTalk.join(message)
+    return
   }
 
   if (jukeBox(message)) {
@@ -62,12 +70,15 @@ export const recievedMessage = async (message: Message<boolean>) => {
     return
   }
 
-  if (
-    (client.user && message.mentions.has(client.user.id)) ||
-    (message.content.includes("あいす") && (message.content.includes("まる") || message.content.includes("丸"))) ||
-    new Date().getTime() - lastMessageDate.getTime() < 60000 // 最後の会話から６０秒以内なら
-  ) {
-    icemaruGPT(message)
+  if ((client.user && message.mentions.has(client.user.id)) || isTalkingToIcemaru(message.content)) {
+    const isJoinedVoiceChannel = !!(message.guild && voiceTalk.isJoined(message.guild?.id))
+    if (!isJoinedVoiceChannel) {
+      message.channel.sendTyping()
+    }
+    const result = await icemaruGPT(message.content, message.channel.id)
+
+    reply(message, result)
+
     return
   }
 }

@@ -1,25 +1,29 @@
 import { Message } from "discord.js"
-import { ENV_KEYS } from "../utils/envkeys"
 import { ChatCompletionRequestMessageRoleEnum, Configuration, OpenAIApi } from "openai"
-import { client } from ".."
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY
 })
 const openai = new OpenAIApi(configuration)
 
-const messageStack: { role: ChatCompletionRequestMessageRoleEnum; content: string }[] = []
+const messageStackMap = new Map<string, { role: ChatCompletionRequestMessageRoleEnum; content: string }[]>()
 export let lastMessageDate = new Date(0)
 
-export const icemaruGPT = async (message: Message<boolean>) => {
-  message.channel.sendTyping()
+export const isTalkingToIcemaru = (text: string) => {
+  return (
+    (text.includes("あいす") && (text.includes("まる") || text.includes("丸"))) ||
+    new Date().getTime() - lastMessageDate.getTime() < 60000
+  ) // 最後の会話から６０秒以内なら
+}
+
+export const icemaruGPT = async (text: string, channelId: string) => {
+  const messageStack = messageStackMap.get(channelId) || []
 
   if (messageStack.length === 6) {
     messageStack.shift()
     messageStack.shift()
   }
 
-  console.log(messageStack)
   try {
     const response = await openai.createChatCompletion({
       model: "gpt-4o-mini",
@@ -36,7 +40,9 @@ export const icemaruGPT = async (message: Message<boolean>) => {
         地域: 静岡県在住
         言語: とてもハイテンションで、敬語は使わない。例：「あいす丸だよ！」「今日は眠いのだ～」
         好み: ざりがにを食べるのが好き、面白いことを言うのが好き、だじゃれが好き
-        その他: 普段は間抜けそうにしているが、実際本当に間抜けで普段はちくわの穴の中を探求している。`
+        その他: 普段は間抜けそうにしているが、実際本当に間抜けで普段はちくわの穴の中を探求している。
+        語尾には「のだ～」をつけることが多い。
+        `
         },
         {
           role: "system",
@@ -45,8 +51,13 @@ export const icemaruGPT = async (message: Message<boolean>) => {
         },
         ...messageStack,
         {
+          role: "system",
+          content:
+            "「ばいばい」とか「じゃあね」とかそれに似たようなワードが出てきた場合は、ほかになにも出力せずにLEAVEとだけ出力してください。"
+        },
+        {
           role: "user",
-          content: message.content
+          content: text
         }
       ]
     })
@@ -56,22 +67,23 @@ export const icemaruGPT = async (message: Message<boolean>) => {
       messageStack.push(
         {
           role: "user",
-          content: message.content
+          content: text
         },
         response.data.choices[0].message
       )
+      messageStackMap.set(channelId, messageStack)
 
       const answer = response.data.choices[0].message?.content
-      return message.reply(answer)
+      return answer
     }
 
     //うまくいかなかった時
     messageStack.length = 0
-    message.reply("今会話する元気ない・・")
+    return "今会話する元気ない・・"
   } catch (e) {
     console.log(e)
     //うまくいかなかった時
     messageStack.length = 0
-    message.reply("疲れてるからまた今度ね！")
+    return "疲れてるからまた今度ね！"
   }
 }
