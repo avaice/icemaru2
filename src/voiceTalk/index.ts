@@ -103,8 +103,12 @@ export const voiceTalk = {
             if (replyMessage.includes("LEAVE")) {
               reply(message, "またね～、ばいばい～")
               setTimeout(() => {
-                connection.destroy()
-                voiceConnections.delete(message.guild!.id)
+                try {
+                  connection.destroy()
+                  voiceConnections.delete(message.guild!.id)
+                } catch (e) {
+                  console.log(e)
+                }
               }, 2000)
             } else {
               reply(message, replyMessage)
